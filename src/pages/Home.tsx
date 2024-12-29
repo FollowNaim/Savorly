@@ -1,3 +1,4 @@
+import Discover from "@/components/home/discover-us/Discover";
 import FeaturedCat from "@/components/home/featured-categories/FeaturedCat";
 import Features from "@/components/home/features/Features";
 import Sliders from "@/components/home/slider/Sliders";
@@ -8,6 +9,7 @@ function Home() {
       <Sliders />
       <Features />
       <FeaturedCat />
+      <Discover />
     </div>
   );
 }

@@ -4,7 +4,7 @@ function Header() {
   return (
     <>
       <nav>
-        <div className="flex justify-between items-center py-2 px-4 border-b border-border bg-black/20 backdrop-blur fixed z-50 w-full">
+        <div className="flex justify-between items-center py-2 px-4 border-b border-border bg-black/20 backdrop-blur fixed z-[999] w-full">
           <div>
             <h1 className="text-2xl font-bold">Savorly</h1>
           </div>
