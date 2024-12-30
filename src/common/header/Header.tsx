@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -9,9 +10,13 @@ function Header() {
             <h1 className="text-2xl font-bold">Savorly</h1>
           </div>
           <div>
-            <ul className="flex items-center gap-4">
-              <li>Home</li>
-              <li>Menus</li>
+            <ul className="flex items-center gap-6">
+              <NavLink to={"/"}>
+                <li>Home</li>
+              </NavLink>
+              <NavLink to={"/dishes"}>
+                <li>Our Dishes</li>
+              </NavLink>
               <li>Foods</li>
               <li>Contact Us</li>
             </ul>
