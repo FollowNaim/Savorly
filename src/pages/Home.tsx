@@ -5,6 +5,7 @@ import Features from "@/components/home/features/Features";
 import FromSheff from "@/components/home/from-sheff/FromSheff";
 import CTA from "@/components/home/home-cta/CTA";
 import Sliders from "@/components/home/slider/Sliders";
+import Testimonials from "@/components/home/testimonials/Testimonials";
 
 function Home() {
   return (
@@ -16,6 +17,7 @@ function Home() {
       <Featured />
       <CTA />
       <FromSheff />
+      <Testimonials />
     </div>
   );
 }
