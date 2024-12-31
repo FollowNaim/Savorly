@@ -121,3 +121,6 @@
 .swiper-pagination-bullet {
   background: blue !important;
 }
+#pagination .active {
+  background-color: #c7ad85;
+}

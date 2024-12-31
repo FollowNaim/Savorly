@@ -1,3 +1,4 @@
+import Loader from "@/common/loader/Loader";
 import Product from "@/common/products/Product";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,14 +12,20 @@ import {
 } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useState } from "react";
 function Dishes() {
-  const { data } = useQuery({
-    queryKey: ["foods"],
-    queryFn: () => axios.get("menu.json"),
-  });
+  const [page, setPage] = useState(0);
   const size = 6;
-  const count = 57;
-  const totalPages = Math.ceil(count / size);
+  const { data, isLoading } = useQuery({
+    queryKey: ["foods", { page }],
+    queryFn: () => axios.get(`/dishes?page=${page}&size=${size}`),
+  });
+  const { data: countData } = useQuery({
+    queryKey: ["count"],
+    queryFn: () => axios.get("/dishes?count=true"),
+  });
+  const totalPages = Math.ceil(countData?.data?.count / size);
+  if (isLoading) return <Loader />;
   return (
     <div className="pt-20 pb-10">
       <div className="container px-4">
@@ -60,9 +67,19 @@ function Dishes() {
             <Product product={item} key={item._id} />
           ))}
         </div>
-        <div className="flex items-center justify-center gap-6 mt-6">
-          {[...Array(totalPages).keys()].map((page) => (
-            <p className="bg-yellow-100/20 px-4 text-white">{page}</p>
+        <div
+          id="pagination"
+          className="flex items-center justify-center gap-6 mt-6"
+        >
+          {[...Array(totalPages ? totalPages : 0).keys()].map((pageNumber) => (
+            <p
+              onClick={() => setPage(pageNumber)}
+              className={`bg-muted px-4 cursor-pointer font-lato py-1 rounded-md  text-white hover:bg-[#c7ac8593] ${
+                page === pageNumber ? "active" : ""
+              }`}
+            >
+              {pageNumber}
+            </p>
           ))}
         </div>
       </div>
