@@ -7,10 +7,16 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 // import required modules
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import Testimonial from "./Testimonial";
 
 export default function Testimonials() {
+  const { data } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: () => axios.get("/reviews"),
+  });
   return (
     <>
       <div className="bg-[#161211]">
@@ -39,12 +45,11 @@ export default function Testimonials() {
               modules={[Autoplay, Pagination, Navigation]}
               className="mySwiper"
             >
-              <SwiperSlide>
-                <Testimonial />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Testimonial />
-              </SwiperSlide>
+              {data?.data.map((review) => (
+                <SwiperSlide key={review._id}>
+                  <Testimonial review={review} />
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </div>

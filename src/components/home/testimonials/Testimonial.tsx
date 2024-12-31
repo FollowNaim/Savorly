@@ -1,20 +1,24 @@
+import { Rating } from "@smastrom/react-rating";
 import { FaQuoteLeft } from "react-icons/fa";
 
-function Testimonial() {
+import "@smastrom/react-rating/style.css";
+function Testimonial({
+  review: { name, details, rating },
+}: {
+  review: { name: string; details: string; rating: number };
+}) {
   return (
     <div>
       <div className="flex flex-col justify-center items-center text-center px-24 pb-20">
+        <div className="mb-4">
+          <Rating style={{ maxWidth: 100 }} readOnly={true} value={rating} />
+        </div>
         <div className="py-4">
           <FaQuoteLeft size={22} />
         </div>
         <div>
-          <p className="text-muted-foreground font-lato">
-            Various version have evolved over the years, sometimes by accident,
-            sometimes on purpose (injected humour and the like). It is a long
-            established fact that a reader will be distracted by the readable
-            content of a page when looking at its layout.
-          </p>
-          <h2 className="mt-6 text-xl text-primary font-bold">Jon Doe</h2>
+          <p className="text-muted-foreground font-lato">{details}</p>
+          <h2 className="mt-6 text-xl text-primary font-bold">{name}</h2>
         </div>
       </div>
     </div>
