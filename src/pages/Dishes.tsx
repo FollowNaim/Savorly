@@ -15,17 +15,39 @@ import axios from "axios";
 import { useState } from "react";
 function Dishes() {
   const [page, setPage] = useState(0);
+  const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("");
   const size = 6;
   const { data, isLoading } = useQuery({
-    queryKey: ["foods", { page }],
-    queryFn: () => axios.get(`/dishes?page=${page}&size=${size}`),
+    queryKey: ["foods", { page, category, search }],
+    queryFn: () =>
+      axios.get(
+        `/dishes?category=${category}&page=${page}&size=${size}&search=${search}`
+      ),
+  });
+  const { data: searchCount } = useQuery({
+    queryKey: [search],
+    queryFn: () =>
+      axios.get(`/dishes?searchCount=${search ? "true" : ""}&search=${search}`),
   });
   const { data: countData } = useQuery({
     queryKey: ["count"],
     queryFn: () => axios.get("/dishes?count=true"),
   });
-  const totalPages = Math.ceil(countData?.data?.count / size);
-  if (isLoading) return <Loader />;
+  const { data: categoryCount } = useQuery({
+    queryKey: [category],
+    queryFn: () => axios.get(`/dishes?categoryCount=${category}`),
+  });
+  const totalPages = Math.ceil(
+    (search
+      ? searchCount?.data.searchCount
+      : categoryCount?.data?.categoryCount
+      ? categoryCount?.data?.categoryCount
+      : countData?.data?.count) / size
+  );
+  // console.log(categoryCount?.data?.categoryCount || );
+  console.log(totalPages);
+  if (isLoading && !search) return <Loader />;
   return (
     <div className="pt-20 pb-10">
       <div className="container px-4">
@@ -40,32 +62,48 @@ function Dishes() {
         </div>
         <div className="mb-10 font-lato flex justify-between items-center">
           <div className="flex-1">
-            <Input className="max-w-xs" placeholder="Search your dishes" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="max-w-xs"
+              placeholder="Search your dishes"
+            />
           </div>
           <div className="flex-1">
             <div className="ml-auto w-fit">
-              <Select>
+              <Select
+                value={category}
+                onValueChange={(value) => {
+                  setCategory(value);
+                  setSearch("");
+                }}
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="apple">Apple</SelectItem>
-                    <SelectItem value="banana">Banana</SelectItem>
-                    <SelectItem value="blueberry">Blueberry</SelectItem>
-                    <SelectItem value="grapes">Grapes</SelectItem>
-                    <SelectItem value="pineapple">Pineapple</SelectItem>
+                    <SelectLabel>Categories</SelectLabel>
+                    <SelectItem value="popular">Popular</SelectItem>
+                    <SelectItem value="offered">Offered</SelectItem>
+                    <SelectItem value="salad">Salad</SelectItem>
+                    <SelectItem value="drinks">Drinks</SelectItem>
+                    <SelectItem value="dessert">Dessert</SelectItem>
+                    <SelectItem value="pizza">Pizza</SelectItem>
+                    <SelectItem value="soup">Soup</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
           </div>
         </div>
+
         <div className="grid grid-cols-3 gap-4">
-          {data?.data.map((item) => (
-            <Product product={item} key={item._id} />
-          ))}
+          {data?.data.length === 0
+            ? "No data found"
+            : data?.data.map((item) => (
+                <Product product={item} key={item._id} />
+              ))}
         </div>
         <div
           id="pagination"
@@ -78,7 +116,7 @@ function Dishes() {
                 page === pageNumber ? "active" : ""
               }`}
             >
-              {pageNumber}
+              {pageNumber + 1}
             </p>
           ))}
         </div>

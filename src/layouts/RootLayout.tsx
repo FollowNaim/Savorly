@@ -1,10 +1,11 @@
 import Footer from "@/common/footer/Footer";
 import Header from "@/common/header/Header";
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 
 function RootLayout() {
   return (
     <div className=" font-lora">
+      <ScrollRestoration />
       <Header />
       <Outlet />
       <Footer />
