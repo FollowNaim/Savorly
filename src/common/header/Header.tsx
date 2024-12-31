@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -7,18 +7,20 @@ function Header() {
       <nav>
         <div className="flex justify-between items-center py-2 px-4 border-b border-border bg-black/20 backdrop-blur fixed z-[999] w-full">
           <div>
-            <h1 className="text-2xl font-bold">Savorly</h1>
+            <Link to={"/"}>
+              <h1 className="text-2xl font-bold">Savorly</h1>
+            </Link>
           </div>
           <div>
-            <ul className="flex items-center gap-6">
+            <ul id="navlinks" className="flex items-center gap-6">
               <NavLink to={"/"}>
-                <li>Home</li>
+                <li className="text-muted-foreground">Home</li>
               </NavLink>
               <NavLink to={"/dishes"}>
-                <li>Our Dishes</li>
+                <li className="text-muted-foreground">Our Dishes</li>
               </NavLink>
-              <li>Foods</li>
-              <li>Contact Us</li>
+              <li className="text-muted-foreground">Foods</li>
+              <li className="text-muted-foreground">Contact Us</li>
             </ul>
           </div>
           <div className="flex items-center gap-2">

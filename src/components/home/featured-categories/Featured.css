@@ -1,0 +1,22 @@
+.swiper-button-prev,
+.swiper-button-next {
+  background: white;
+  padding: 6px 22px !important;
+  border-radius: 999px;
+  z-index: 9999;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 16px !important;
+  color: #000;
+  z-index: 999;
+}
+#featured .swiper-slide.swiper-slide-active #cat {
+  border-color: #c7ad85 !important;
+  border-radius: 10px;
+}
+
+#featured .swiper-slide.swiper-slide-active a > button {
+  background: #c7ad85;
+  color: #000;
+}

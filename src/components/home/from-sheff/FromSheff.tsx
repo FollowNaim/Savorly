@@ -1,6 +1,12 @@
 import SmallProduct from "@/common/products/SmallProduct";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 function FromSheff() {
+  const { data } = useQuery({
+    queryKey: ["from-sheff"],
+    queryFn: () => axios.get("/dishes?category=offered&size=4"),
+  });
   return (
     <div className="my-10">
       <div className="container px-4">
@@ -15,10 +21,9 @@ function FromSheff() {
         </div>
         <div className="mt-8">
           <div className="grid grid-cols-2 gap-4">
-            <SmallProduct />
-            <SmallProduct />
-            <SmallProduct />
-            <SmallProduct />
+            {data?.data.map((item) => (
+              <SmallProduct key={item._id} item={item} />
+            ))}
           </div>
         </div>
       </div>

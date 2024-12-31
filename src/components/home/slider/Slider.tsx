@@ -10,7 +10,7 @@ function Slider({
 }) {
   return (
     <div
-      className="flex flex-col justify-center items-center text-center py-20 gap-6 bg-black/30 bg-blend-overlay font-cormorant"
+      className="flex flex-col justify-center items-center text-center py-32 gap-6 bg-no-repeat bg-cover bg-black/30 bg-blend-overlay font-cormorant"
       style={{ backgroundImage: `url('${img}')` }}
     >
       <h2 className="text-6xl font-bold max-w-4xl leading-tight">{title}</h2>

@@ -1,5 +1,11 @@
 import topleft from "@/assets/images/featured-cat/featured-cat.png";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import Category from "./Category";
+import "./Featured.css";
 function FeaturedCat() {
   return (
     <div className="bg-[#161211] relative py-20 overflow-hidden">
@@ -21,11 +27,63 @@ function FeaturedCat() {
         <div className="flex justify-center items-center mt-6">
           <p className="border-r border-primary/80 h-16 w-1 text-center"></p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
-          <Category />
-          <Category />
-          <Category />
-          <Category />
+        <div id="featured" className="mt-10">
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={30}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper"
+          >
+            <SwiperSlide>
+              <Category
+                name={"popular"}
+                subtitle={
+                  "Our menu mirrors the restaurant’s design in marrying inspiration from old school butcher shops"
+                }
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <Category
+                name={"offered"}
+                subtitle={
+                  "Our menu mirrors the restaurant’s design in marrying inspiration from old school butcher shops"
+                }
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <Category
+                name={"pizza"}
+                subtitle={
+                  "Our menu mirrors the restaurant’s design in marrying inspiration from old school butcher shops"
+                }
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <Category
+                name={"salad"}
+                subtitle={
+                  "Our menu mirrors the restaurant’s design in marrying inspiration from old school butcher shops"
+                }
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <Category
+                name={"dessert"}
+                subtitle={
+                  "Our menu mirrors the restaurant’s design in marrying inspiration from old school butcher shops"
+                }
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <Category
+                name={"soup"}
+                subtitle={
+                  "Our menu mirrors the restaurant’s design in marrying inspiration from old school butcher shops"
+                }
+              />
+            </SwiperSlide>
+          </Swiper>
         </div>
       </div>
     </div>

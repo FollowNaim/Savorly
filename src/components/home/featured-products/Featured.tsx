@@ -1,16 +1,12 @@
 import Product from "@/common/products/Product";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 function Featured() {
-  const product = {
-    _id: "642c155b2c4774f05c36eeb9",
-    name: "Haddock",
-    recipe:
-      "Chargrilled fresh tuna steak (served medium rare) on classic Niçoise salad with French beans.",
-    image:
-      "https://cristianonew.ukrdevs.com/wp-content/uploads/2016/08/product-1-370x247.jpg",
-    category: "drinks",
-    price: 14.7,
-  };
+  const { data } = useQuery({
+    queryKey: ["popular"],
+    queryFn: () => axios.get("/dishes?category=popular&size=3"),
+  });
   return (
     <div className="bg-[#161211]">
       <div className="container px-4 py-10">
@@ -28,9 +24,9 @@ function Featured() {
             className="
           grid grid-cols-3 gap-4"
           >
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
+            {data?.data.map((item) => (
+              <Product key={item._id} product={item} />
+            ))}
           </div>
         </div>
       </div>

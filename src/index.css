@@ -124,3 +124,9 @@
 #pagination .active {
   background-color: #c7ad85;
 }
+
+#navlinks .active {
+  text-decoration: underline;
+  text-decoration-color: #ffffff9b;
+  text-underline-offset: 3px;
+}

@@ -13,11 +13,14 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 function Dishes() {
+  const { categoryName } = useParams();
   const [page, setPage] = useState(0);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(categoryName || "");
   const [search, setSearch] = useState("");
   const size = 6;
+  // default pagination
   const { data, isLoading } = useQuery({
     queryKey: ["foods", { page, category, search }],
     queryFn: () =>
@@ -25,19 +28,23 @@ function Dishes() {
         `/dishes?category=${category}&page=${page}&size=${size}&search=${search}`
       ),
   });
+  // counting the data based on the search
   const { data: searchCount } = useQuery({
     queryKey: [search],
     queryFn: () =>
       axios.get(`/dishes?searchCount=${search ? "true" : ""}&search=${search}`),
   });
+  // counting all data
   const { data: countData } = useQuery({
     queryKey: ["count"],
     queryFn: () => axios.get("/dishes?count=true"),
   });
+  // counting the data based on category
   const { data: categoryCount } = useQuery({
     queryKey: [category],
     queryFn: () => axios.get(`/dishes?categoryCount=${category}`),
   });
+  // created totalpages based on searchCount else categoryCount else all data
   const totalPages = Math.ceil(
     (search
       ? searchCount?.data.searchCount
@@ -45,9 +52,7 @@ function Dishes() {
       ? categoryCount?.data?.categoryCount
       : countData?.data?.count) / size
   );
-  // console.log(categoryCount?.data?.categoryCount || );
-  console.log(totalPages);
-  if (isLoading && !search) return <Loader />;
+
   return (
     <div className="pt-20 pb-10">
       <div className="container px-4">
@@ -76,6 +81,7 @@ function Dishes() {
                 onValueChange={(value) => {
                   setCategory(value);
                   setSearch("");
+                  setPage(0);
                 }}
               >
                 <SelectTrigger className="w-[180px]">
@@ -97,13 +103,18 @@ function Dishes() {
             </div>
           </div>
         </div>
-
-        <div className="grid grid-cols-3 gap-4">
-          {data?.data.length === 0
-            ? "No data found"
-            : data?.data.map((item) => (
-                <Product product={item} key={item._id} />
-              ))}
+        <div>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div className="grid grid-cols-3 gap-4">
+              {data?.data.length === 0
+                ? "No data found"
+                : data?.data.map((item) => (
+                    <Product product={item} key={item._id} />
+                  ))}
+            </div>
+          )}
         </div>
         <div
           id="pagination"
